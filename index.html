@@ -1,0 +1,90 @@
+document.getElementById("city").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        getWeather();
+    }
+});
+
+document.getElementById("modeToggle").addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+});
+
+async function getWeather() {
+
+    const city = document.getElementById("city").value.trim();
+
+    if (city === "") {
+        alert("Please enter a city name");
+        return;
+    }
+
+    const apiKey = "0dc36b6e36fabdbf66f132b766586721";
+
+    const url =
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+
+        document.getElementById("cityName").innerHTML = "Loading...";
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.cod != 200) {
+            document.getElementById("cityName").innerHTML =
+                "❌ City Not Found";
+            return;
+        }
+
+        document.getElementById("cityName").innerHTML = data.name;
+
+        document.getElementById("temp").innerHTML =
+            `🌡️ Temperature: ${data.main.temp}°C <br>
+             Feels Like: ${data.main.feels_like}°C`;
+
+        document.getElementById("humidity").innerHTML =
+            `💧 Humidity: ${data.main.humidity}%`;
+
+            document.getElementById("rain").innerHTML =
+    data.rain
+        ? "🌧️ Rain Detected"
+        : "☀️ No Rain Expected";
+
+        document.getElementById("wind").innerHTML =
+            `💨 Wind Speed: ${data.wind.speed} m/s`;
+
+        document.getElementById("date").innerHTML =
+            `📅 ${new Date().toLocaleString()}`;
+
+        document.getElementById("icon").src =
+            `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+        const weatherMain = data.weather[0].main;
+
+        if (weatherMain === "Clear") {
+            document.getElementById("condition").innerHTML = "☀️ Clear Sky";
+        }
+        else if (weatherMain === "Clouds") {
+            document.getElementById("condition").innerHTML = "☁️ Cloudy";
+        }
+        else if (weatherMain === "Rain") {
+            document.getElementById("condition").innerHTML = "🌧️ Rainy";
+        }
+        else if (weatherMain === "Thunderstorm") {
+            document.getElementById("condition").innerHTML = "⛈️ Thunderstorm";
+        }
+        else if (weatherMain === "Snow") {
+            document.getElementById("condition").innerHTML = "❄️ Snow";
+        }
+        else {
+            document.getElementById("condition").innerHTML =
+                data.weather[0].description;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("cityName").innerHTML =
+            "❌ Error Fetching Data";
+    }
+}
