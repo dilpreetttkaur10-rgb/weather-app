@@ -39,15 +39,11 @@ weather-app/
 
 ## 🌐 Live Demo
 
-Add your GitHub Pages link here after deployment:
-
-https://your-username.github.io/weather-app/
+https://dilpreetttkaur10-rgb.github.io/weather-app/
 
 ## 👩‍💻 Author
 
-**Dilpreet Kaur**
-
-B.Tech CSE (AI & ML)
+Dilpreet Kaur
 
 ## 📜 License
 
